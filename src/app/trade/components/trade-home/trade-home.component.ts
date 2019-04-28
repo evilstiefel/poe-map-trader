@@ -82,13 +82,13 @@ export class TradeHomeComponent implements OnInit {
 
   calculatePrices(val: TradeResponse): Observable<PricedResult> {
     return this.service.sendDetailRequest(val.result, val.id).pipe(
-      catchError(err => EMPTY),
+      catchError(_ => EMPTY),
       map(response => {
         const currency = response.result[0].listing.price.currency;
         const { name: account, lastCharacterName: char } = response.result[0].listing.account;
         const totalPrice = Math.ceil(response.result.reduce((acc, cur) => acc += cur.listing.price.amount, 0));
         const items = response.result.reduce(
-          (acc, cur) => [...acc, { price: cur.listing.price.amount, name: cur.item.typeLine, tier: this.getMapTier(cur) }], []
+          (acc, cur) => [...acc, { price: cur.listing.price.amount, name: cur.item.typeLine, tier: this.getMapTier(cur) || '??' }], []
         );
         const whisper = `@${char} Hi, I would like to buy your ${
           items.reduce((acc, item) => [...acc, `${item.name} (T${item.tier})`], [])
@@ -99,12 +99,24 @@ export class TradeHomeComponent implements OnInit {
     );
   }
 
+  /**
+   * Tries to parse the map tier from the result, using the whisper-text
+   * supplied by the API and looking for (T<number>) in the string
+   * @param trade Details of a single trade listing
+   */
   getMapTier(trade: TradeDetails): number {
     const mapTier: string[] = /\(T(\d+)\)/.exec(trade.listing.whisper);
-
-    return parseInt(mapTier[1], 10);
+    if (mapTier.length >= 2) {
+      return parseInt(mapTier[1], 10);
+    } else {
+      return null;
+    }
   }
 
+  /**
+   * Used to track the result cards, since we can only have one result
+   * per account, just use the account name
+   */
   resultsTrackerFn(_: number, item: PricedResult): string {
     return item.account;
   }
