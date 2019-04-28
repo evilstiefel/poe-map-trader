@@ -91,3 +91,11 @@ export interface ItemProperty {
   type: number;
   values: Array<string | number>[];
 }
+
+export interface PricedResult {
+  account: string;
+  totalPrice: number;
+  currency: string;
+  items: any[];
+  whisper: string;
+}

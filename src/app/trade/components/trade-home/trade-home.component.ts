@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { from, Observable } from 'rxjs';
+import { concatMap, delay, finalize, map, switchMap } from 'rxjs/operators';
+import { BulkTradeRequest, TradeDetails, TradeResponse, PricedResult } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
-import { BulkTradeRequest, TradeResponse, TradeDetails } from 'src/app/shared/interfaces/trade-interfaces';
-
-import { switchMap, map, delay, finalize, concatMap, catchError, concatAll, toArray } from 'rxjs/operators';
-import { from, iif, throwError, of, EMPTY } from 'rxjs';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-trade-home',
@@ -14,6 +13,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class TradeHomeComponent implements OnInit {
 
   searching = false;
+  results: PricedResult[] = [];
   bulkSearchForm: FormGroup;
   constructor(private service: TradeService, private fb: FormBuilder) {
     this.bulkSearchForm = new FormGroup({
@@ -26,6 +26,7 @@ export class TradeHomeComponent implements OnInit {
   }
 
   search(): void {
+    this.results = [];
     this.searching = true;
     const request: BulkTradeRequest = {
       exchange: {
@@ -35,10 +36,11 @@ export class TradeHomeComponent implements OnInit {
         status: {
           option: 'online'
         },
-        have: ['chisel']
+        have: [(this.bulkSearchForm.controls.currency.value as string)
+          .trim()
+          .toLocaleLowerCase()]
       }
     };
-    console.log(`Looking for: ${request.exchange.want}`);
     const request$ = this.service.sendBulkRequest(request).pipe(
       delay(1000),
       switchMap((res) => {
@@ -57,43 +59,44 @@ export class TradeHomeComponent implements OnInit {
           })
         );
       }),
-      finalize(() => console.log('Done with trade requests')),
+      switchMap(r => this.calculatePrices(r)),
+      finalize(() => {
+        console.log('Done with trade requests');
+        this.searching = false;
+      }),
     );
 
-    const subscription = request$.subscribe(val => {
-      if (val.total === request.exchange.want.length) {
-        console.log('Found a trader with all items!');
-        subscription.unsubscribe();
-        this.calculatePrices(val);
-      } else {
-        this.searching = false;
-      }
+    request$.subscribe(val => {
+      this.results = [...this.results, val].sort((a, b) => a.items.length < b.items.length ? 1 : -1);
     });
   }
 
-  calculatePrices(val: TradeResponse): void {
-    this.service.sendDetailRequest(val.result, val.id).subscribe(
-      response => {
+  calculatePrices(val: TradeResponse): Observable<PricedResult> {
+    return this.service.sendDetailRequest(val.result, val.id).pipe(
+      map(response => {
         const currency = response.result[0].listing.price.currency;
-        const { online: isOnline, name: account, lastCharacterName: char } = response.result[0].listing.account;
-        const prices = Math.ceil(response.result.reduce((acc, cur) => acc += cur.listing.price.amount, 0));
+        const { name: account, lastCharacterName: char } = response.result[0].listing.account;
+        const totalPrice = Math.ceil(response.result.reduce((acc, cur) => acc += cur.listing.price.amount, 0));
         const items = response.result.reduce(
           (acc, cur) => [...acc, { price: cur.listing.price.amount, name: cur.item.typeLine, tier: this.getMapTier(cur) }], []
         );
-        const whipser = `@${char} Hi, I would like to buy your ${
+        const whisper = `@${char} Hi, I would like to buy your ${
           items.reduce((acc, item) => [...acc, `${item.name} (T${item.tier})`], [])
-            .join(', ')} listed for ${prices} ${currency} in Synthesis`;
-        console.log(whipser);
-        console.log({ account, isOnline, msg: 'Total prices', prices, currency, items });
+            .join(', ')} listed for ${totalPrice} ${currency} in Synthesis`;
+        return ({ account, totalPrice, currency, items, whisper });
       }
+      )
     );
-    this.searching = false;
   }
 
   getMapTier(trade: TradeDetails): number {
     const mapTier: string[] = /\(T(\d+)\)/.exec(trade.listing.whisper);
 
     return parseInt(mapTier[1], 10);
+  }
+
+  resultsTrackerFn(idx: number, item: PricedResult): string {
+    return item.account;
   }
 
 }
