@@ -80,8 +80,9 @@ export class TradeHomeComponent implements OnInit {
         const items = response.result.reduce(
           (acc, cur) => [...acc, { price: cur.listing.price.amount, name: cur.item.typeLine, tier: this.getMapTier(cur) }], []
         );
-        // tslint:disable-next-line:max-line-length
-        const whipser = `@${char} Hi, I would like to buy your ${items.reduce((acc, item) => [...acc, `${item.name} (T${item.tier})`], []).join(', ')} listed for ${prices} ${currency} in Synthesis`;
+        const whipser = `@${char} Hi, I would like to buy your ${
+          items.reduce((acc, item) => [...acc, `${item.name} (T${item.tier})`], [])
+            .join(', ')} listed for ${prices} ${currency} in Synthesis`;
         console.log(whipser);
         console.log({ account, isOnline, msg: 'Total prices', prices, currency, items });
       }
