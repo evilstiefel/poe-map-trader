@@ -64,16 +64,17 @@ export class TradeHomeComponent implements OnInit {
       catchError(_ => EMPTY),
       takeUntil(this.abort$),
       finalize(() => {
-        console.log('Done with trade requests');
         this.searching = false;
       }),
     );
 
     request$.pipe(catchError(_ => EMPTY)).subscribe(val => {
       this.results = [...this.results, val].sort((a, b) => {
+        // Put cheaper results at the top (for same amount of items)
         if (a.items.length === b.items.length) {
           return a.totalPrice > b.totalPrice ? 1 : -1;
         }
+        // Otherwise, results with more items are always better
         return a.items.length < b.items.length ? 1 : -1;
       });
     });
@@ -104,7 +105,7 @@ export class TradeHomeComponent implements OnInit {
     return parseInt(mapTier[1], 10);
   }
 
-  resultsTrackerFn(idx: number, item: PricedResult): string {
+  resultsTrackerFn(_: number, item: PricedResult): string {
     return item.account;
   }
 
