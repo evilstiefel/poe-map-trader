@@ -1,11 +1,11 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { from, Observable, Subject, EMPTY } from 'rxjs';
-import { concatMap, delay, finalize, map, switchMap, takeUntil, catchError } from 'rxjs/operators';
-import { BulkTradeRequest, TradeDetails, TradeResponse, PricedResult } from 'src/app/shared/interfaces/trade-interfaces';
-import { TradeService } from 'src/app/shared/services/trade.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { EMPTY, from, Observable, Subject } from 'rxjs';
+import { catchError, concatMap, delay, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
+import { BulkTradeRequest, PricedResult, TradeDetails, TradeResponse } from 'src/app/shared/interfaces/trade-interfaces';
+import { TradeService } from 'src/app/shared/services/trade.service';
 
 @Component({
   selector: 'app-trade-home',
@@ -37,7 +37,6 @@ export class TradeHomeComponent implements OnInit {
   bulkSearchForm: FormGroup;
   constructor(
     private service: TradeService,
-    private fb: FormBuilder,
     private matSnack: MatSnackBar,
   ) {
     this.bulkSearchForm = new FormGroup({
