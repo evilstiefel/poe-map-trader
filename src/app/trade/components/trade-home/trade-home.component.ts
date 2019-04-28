@@ -94,6 +94,7 @@ export class TradeHomeComponent implements OnInit {
       this.results = [...this.results, val].sort((a, b) => {
         // Put cheaper results at the top (for same amount of items)
         if (a.items.length === b.items.length) {
+          if (a.totalPrice === b.totalPrice) { return 0; }
           return a.totalPrice > b.totalPrice ? 1 : -1;
         }
         // Otherwise, results with more items are always better
