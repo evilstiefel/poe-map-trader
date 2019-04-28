@@ -21,10 +21,9 @@ import { trigger, transition, style, animate } from '@angular/animations';
         }))
       ]),
       transition(':leave', [
-        style({ height: '*', opacity: 1 }),
+        style({ opacity: 1 }),
         animate('200ms ease-out', style({
           opacity: 0,
-          height: '0'
         }))
       ]),
     ])
@@ -148,7 +147,7 @@ export class TradeHomeComponent implements OnInit {
   copyToClipboard(inputElement: any): void {
     inputElement.select();
     document.execCommand('copy');
-    this.matSnack.open('Whisper copied to clipboard!', undefined, { duration: 4000 });
+    this.matSnack.open('Copied to clipboard!', undefined, { duration: 4000 });
   }
 
 }
