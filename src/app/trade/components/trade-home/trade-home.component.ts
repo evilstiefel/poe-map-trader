@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { from, Observable, Subject } from 'rxjs';
-import { concatMap, delay, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
+import { from, Observable, Subject, EMPTY } from 'rxjs';
+import { concatMap, delay, finalize, map, switchMap, takeUntil, catchError } from 'rxjs/operators';
 import { BulkTradeRequest, TradeDetails, TradeResponse, PricedResult } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
 
@@ -61,6 +61,7 @@ export class TradeHomeComponent implements OnInit {
         );
       }),
       switchMap(r => this.calculatePrices(r)),
+      catchError(_ => EMPTY),
       takeUntil(this.abort$),
       finalize(() => {
         console.log('Done with trade requests');
@@ -68,7 +69,7 @@ export class TradeHomeComponent implements OnInit {
       }),
     );
 
-    request$.subscribe(val => {
+    request$.pipe(catchError(_ => EMPTY)).subscribe(val => {
       this.results = [...this.results, val].sort((a, b) => {
         if (a.items.length === b.items.length) {
           return a.totalPrice > b.totalPrice ? 1 : -1;
@@ -80,6 +81,7 @@ export class TradeHomeComponent implements OnInit {
 
   calculatePrices(val: TradeResponse): Observable<PricedResult> {
     return this.service.sendDetailRequest(val.result, val.id).pipe(
+      catchError(err => EMPTY),
       map(response => {
         const currency = response.result[0].listing.price.currency;
         const { name: account, lastCharacterName: char } = response.result[0].listing.account;
