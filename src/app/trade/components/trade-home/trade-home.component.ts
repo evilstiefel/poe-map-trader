@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EMPTY, from, Observable, Subject } from 'rxjs';
@@ -29,7 +29,7 @@ import { TradeService } from 'src/app/shared/services/trade.service';
     ])
   ]
 })
-export class TradeHomeComponent implements OnInit {
+export class TradeHomeComponent {
 
   searching = false;
   abort$ = new Subject<void>();
@@ -43,9 +43,6 @@ export class TradeHomeComponent implements OnInit {
       wanted: new FormControl('', Validators.required),
       currency: new FormControl('chisel', Validators.required)
     });
-  }
-
-  ngOnInit() {
   }
 
   search(): void {
