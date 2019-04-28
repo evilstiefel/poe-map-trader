@@ -19,7 +19,7 @@ export class TradeHomeComponent implements OnInit {
   constructor(private service: TradeService, private fb: FormBuilder) {
     this.bulkSearchForm = new FormGroup({
       wanted: new FormControl('', Validators.required),
-      currency: new FormControl('chisel', Validators.required)
+      currency: new FormControl('alch', Validators.required)
     });
   }
 

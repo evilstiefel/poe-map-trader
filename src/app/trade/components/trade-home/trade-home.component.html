@@ -4,9 +4,18 @@
   </mat-card-header>
   <mat-card-content>
     <form [formGroup]="bulkSearchForm">
-      <mat-form-field>
-        <input type="text" matInput formControlName="wanted" placeholder="Maps to look for">
-      </mat-form-field>
+      <div class="d-flex wrap">
+        <mat-form-field style="margin-right: 0.5rem;">
+          <input type="text" matInput formControlName="wanted" placeholder="Maps to look for">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="currency" placeholder="Currency">
+            <mat-option value="alch">Alchemy</mat-option>
+            <mat-option value="chisel">Chisel</mat-option>
+            <mat-option value="chaos">Chaos</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </form>
     <mat-card-actions>
       <div style="display: flex; align-items: center;">
@@ -32,7 +41,7 @@
     <mat-card-subtitle>
       <span>
         {{ result.items.length }} {{ (result.items.length > 1) ? 'items' : 'item' }} for {{result.totalPrice}}
-        {{ (result.totalPrice > 1) ? result.currency + 's' : result.currency }}
+        {{ result.currency }}
       </span>
     </mat-card-subtitle>
   </mat-card-header>
