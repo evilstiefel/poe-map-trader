@@ -4,6 +4,7 @@ import { from, Observable, Subject, EMPTY } from 'rxjs';
 import { concatMap, delay, finalize, map, switchMap, takeUntil, catchError } from 'rxjs/operators';
 import { BulkTradeRequest, TradeDetails, TradeResponse, PricedResult } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-trade-home',
@@ -16,7 +17,11 @@ export class TradeHomeComponent implements OnInit {
   abort$ = new Subject<void>();
   results: PricedResult[] = [];
   bulkSearchForm: FormGroup;
-  constructor(private service: TradeService, private fb: FormBuilder) {
+  constructor(
+    private service: TradeService,
+    private fb: FormBuilder,
+    private matSnack: MatSnackBar,
+  ) {
     this.bulkSearchForm = new FormGroup({
       wanted: new FormControl('', Validators.required),
       currency: new FormControl('chisel', Validators.required)
@@ -119,6 +124,12 @@ export class TradeHomeComponent implements OnInit {
    */
   resultsTrackerFn(_: number, item: PricedResult): string {
     return item.account;
+  }
+
+  copyToClipboard(inputElement: any): void {
+    inputElement.select();
+    document.execCommand('copy');
+    this.matSnack.open('Whisper copied to clipboard!', undefined, { duration: 4000 });
   }
 
 }

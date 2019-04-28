@@ -48,7 +48,7 @@
   <mat-card-content>
     <div class="d-flex">
       <mat-form-field style="width: 100%;">
-        <textarea rows="3" [value]="result.whisper" matInput></textarea>
+        <textarea (click)="copyToClipboard(inputElement)" #inputElement [value]="result.whisper" matInput></textarea>
       </mat-form-field>
     </div>
   </mat-card-content>
