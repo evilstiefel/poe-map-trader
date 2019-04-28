@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { from, Observable } from 'rxjs';
-import { concatMap, delay, finalize, map, switchMap } from 'rxjs/operators';
+import { from, Observable, Subject } from 'rxjs';
+import { concatMap, delay, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
 import { BulkTradeRequest, TradeDetails, TradeResponse, PricedResult } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
 
@@ -13,6 +13,7 @@ import { TradeService } from 'src/app/shared/services/trade.service';
 export class TradeHomeComponent implements OnInit {
 
   searching = false;
+  abort$ = new Subject<void>();
   results: PricedResult[] = [];
   bulkSearchForm: FormGroup;
   constructor(private service: TradeService, private fb: FormBuilder) {
@@ -60,6 +61,7 @@ export class TradeHomeComponent implements OnInit {
         );
       }),
       switchMap(r => this.calculatePrices(r)),
+      takeUntil(this.abort$),
       finalize(() => {
         console.log('Done with trade requests');
         this.searching = false;
@@ -67,7 +69,12 @@ export class TradeHomeComponent implements OnInit {
     );
 
     request$.subscribe(val => {
-      this.results = [...this.results, val].sort((a, b) => a.items.length < b.items.length ? 1 : -1);
+      this.results = [...this.results, val].sort((a, b) => {
+        if (a.items.length === b.items.length) {
+          return a.totalPrice > b.totalPrice ? 1 : -1;
+        }
+        return a.items.length < b.items.length ? 1 : -1;
+      });
     });
   }
 

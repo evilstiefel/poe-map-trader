@@ -9,8 +9,11 @@
       </mat-form-field>
     </form>
     <mat-card-actions>
-      <button style="margin-left: 0.5rem;" [disabled]="searching || !bulkSearchForm.valid" color="primary"
-        mat-raised-button (click)="search()">Search</button>
+      <div style="display: flex; align-items: center;">
+        <button style="margin-left: 0.5rem;" [disabled]="searching || !bulkSearchForm.valid" color="primary"
+          mat-raised-button (click)="search()">Search</button>
+        <mat-spinner style="margin-left: 0.5rem;" [diameter]="30" *ngIf="searching"></mat-spinner>
+      </div>
     </mat-card-actions>
   </mat-card-content>
   <mat-card-footer>
@@ -20,4 +23,20 @@
   </mat-card-footer>
 </mat-card>
 
-<pre class="mt-4" *ngFor="let result of results; trackBy: resultsTrackerFn">{{result | json}}</pre>
+<mat-card style="margin: 0.5rem;" *ngFor="let result of results; trackBy: resultsTrackerFn">
+  <mat-card-header>
+    <mat-card-title>
+      <span>{{ result.account }}</span>
+    </mat-card-title>
+
+    <mat-card-subtitle>
+      <span>
+        {{ result.items.length }} {{ (result.items.length > 1) ? 'items' : 'item' }} for {{result.totalPrice}}
+        {{ (result.totalPrice > 1) ? result.currency + 's' : result.currency }}
+      </span>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    {{ result.whisper }}
+  </mat-card-content>
+</mat-card>
