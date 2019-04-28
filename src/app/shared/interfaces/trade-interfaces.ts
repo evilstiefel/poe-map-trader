@@ -2,6 +2,7 @@ export type OnlineState = 'online' | 'offline';
 
 export interface BulkTradeRequest {
   exchange: {
+    account?: string;
     status: {
       option: OnlineState
     },
@@ -22,28 +23,23 @@ export interface TradeDetailsResponse {
 
 export interface TradeDetails {
   id: string;
-  account: AccountDetails;
   item: ItemDetails;
-  source: {
-    method: string;
+  listing: {
+    account: AccountDetails;
     indexed: string;
-    stash: {
-      name: string;
-      x: number;
-      y: number;
-    }
-  };
-  info: {
+    method: string;
     price: {
-      type: string;
       amount: number;
       currency: string;
-    }
+      type: string;
+    };
+    whisper: string;
   };
 }
 
 
 export interface ItemDetails {
+  properties?: ItemProperty[];
   verified: boolean;
   w: number;
   h: number;
@@ -87,4 +83,11 @@ export interface AccountDetails {
   };
   language: string;
   whisper: string;
+}
+
+export interface ItemProperty {
+  displayMode: number;
+  name: string;
+  type: number;
+  values: Array<string | number>[];
 }

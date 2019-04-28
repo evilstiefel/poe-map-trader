@@ -1,0 +1,11 @@
+{
+  "/proxy/*": {
+    "target": "http://www.pathofexile.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/proxy": "/api"
+    }
+  }
+}
