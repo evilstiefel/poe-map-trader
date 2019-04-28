@@ -5,11 +5,30 @@ import { concatMap, delay, finalize, map, switchMap, takeUntil, catchError } fro
 import { BulkTradeRequest, TradeDetails, TradeResponse, PricedResult } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-trade-home',
   templateUrl: './trade-home.component.html',
-  styleUrls: ['./trade-home.component.scss']
+  styleUrls: ['./trade-home.component.scss'],
+  animations: [
+    trigger('GrowInOut', [
+      transition(':enter', [
+        style({ height: '0', opacity: 0 }),
+        animate('200ms ease-out', style({
+          opacity: 1,
+          height: '*'
+        }))
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: 1 }),
+        animate('200ms ease-out', style({
+          opacity: 0,
+          height: '0'
+        }))
+      ]),
+    ])
+  ]
 })
 export class TradeHomeComponent implements OnInit {
 

@@ -32,7 +32,7 @@
   </mat-card-footer>
 </mat-card>
 
-<mat-card style="margin: 0.5rem;" *ngFor="let result of results; trackBy: resultsTrackerFn">
+<mat-card [@GrowInOut] style="margin: 0.5rem;" *ngFor="let result of results; trackBy: resultsTrackerFn">
   <mat-card-header>
     <mat-card-title>
       <span>{{ result.account }}</span>
