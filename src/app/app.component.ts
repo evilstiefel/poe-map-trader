@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CheckForUpdateService } from './shared/services/check-for-update.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'map-trader';
+  constructor(updater: CheckForUpdateService) {}
 }

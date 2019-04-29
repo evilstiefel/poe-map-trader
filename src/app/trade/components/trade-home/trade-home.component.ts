@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EMPTY, from, Observable, Subject } from 'rxjs';
-import { catchError, concatMap, delay, finalize, map, switchMap, takeUntil } from 'rxjs/operators';
+import { catchError, concatMap, delay, finalize, map, switchMap, takeUntil, bufferTime } from 'rxjs/operators';
 import { BulkTradeRequest, PricedResult, TradeDetails, TradeResponse } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
 
@@ -79,7 +79,7 @@ export class TradeHomeComponent {
           })
         );
       }),
-      switchMap(r => this.calculatePrices(r)),
+      concatMap(r => this.calculatePrices(r)),
       catchError(_ => EMPTY),
       takeUntil(this.abort$),
       finalize(() => {
