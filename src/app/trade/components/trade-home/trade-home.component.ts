@@ -1,10 +1,15 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMPTY, from, Observable, Subject } from 'rxjs';
-import { catchError, concatMap, delay, finalize, map, switchMap, takeUntil, bufferTime } from 'rxjs/operators';
-import { BulkTradeRequest, PricedResult, TradeDetails, TradeResponse } from 'src/app/shared/interfaces/trade-interfaces';
+import { EMPTY, from, Subject } from 'rxjs';
+import { catchError, concatMap, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {
+  BulkTradeRequest,
+  PricedResult,
+  TradeDetails,
+  TradeDetailsResponse,
+} from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
 
 @Component({
@@ -66,7 +71,6 @@ export class TradeHomeComponent {
      * Collect account names that trade at least one of the items
      */
     const collectAccountNames$ = this.service.sendBulkRequest(request).pipe(
-      delay(1000),
       // Limit trade results to top 10
       map((res) => ({ listings: res.result.slice(0, 10), id: res.id })),
       switchMap(({ listings, id }) => {
@@ -75,7 +79,12 @@ export class TradeHomeComponent {
       map(details => details.result.reduce((acc, cur) => {
         if (acc.includes(cur.listing.account.name)) { return acc; }
         return [...acc, cur.listing.account.name];
-      }, []))
+      }, [])),
+      tap(acc => {
+        if (isDevMode()) {
+          console.log(`Collected ${acc.length} accounts`);
+        }
+      })
     );
 
     /**
@@ -90,11 +99,12 @@ export class TradeHomeComponent {
           concatMap(acc => {
             const cpy = { ...request };
             cpy.exchange.account = acc;
-            return this.service.sendBulkRequest({ ...cpy }).pipe(delay(1000));
+            return this.service.sendBulkRequest({ ...cpy });
           })
         );
       }),
-      concatMap(r => this.calculatePrices(r)),
+      concatMap(r => this.service.sendDetailRequest(r.result, r.id)),
+      map(result => this.formatResults(result)),
       catchError(_ => EMPTY),
       takeUntil(this.abort$),
       finalize(() => {
@@ -115,23 +125,22 @@ export class TradeHomeComponent {
     });
   }
 
-  calculatePrices(val: TradeResponse): Observable<PricedResult> {
-    return this.service.sendDetailRequest(val.result, val.id).pipe(
-      catchError(_ => EMPTY),
-      map(response => {
-        const currency = response.result[0].listing.price.currency;
-        const { name: account, lastCharacterName: char } = response.result[0].listing.account;
-        const totalPrice = Math.ceil(response.result.reduce((acc, cur) => acc += cur.listing.price.amount, 0));
-        const items = response.result.reduce(
-          (acc, cur) => [...acc, { price: cur.listing.price.amount, name: cur.item.typeLine, tier: this.getMapTier(cur) || '??' }], []
-        );
-        const whisper = `@${char} Hi, I would like to buy your ${
-          items.reduce((acc, item) => [...acc, `${item.name} (T${item.tier})`], [])
-            .join(', ')} listed for ${totalPrice} ${currency} in Synthesis`;
-        return ({ account, totalPrice, currency, items, whisper });
-      }
-      )
+  /**
+   * Given an API-Response, format the result and calculate
+   * the total price for all items for displaying in the frontend
+   * @param val API-Response with listing details
+   */
+  formatResults(val: TradeDetailsResponse): PricedResult {
+    const currency = val.result[0].listing.price.currency;
+    const { name: account, lastCharacterName: char } = val.result[0].listing.account;
+    const totalPrice = Math.ceil(val.result.reduce((acc, cur) => acc += cur.listing.price.amount, 0));
+    const items = val.result.reduce(
+      (acc, cur) => [...acc, { price: cur.listing.price.amount, name: cur.item.typeLine, tier: this.getMapTier(cur) || '??' }], []
     );
+    const whisper = `@${char} Hi, I would like to buy your ${
+      items.reduce((acc, item) => [...acc, `${item.name} (T${item.tier})`], [])
+        .join(', ')} listed for ${totalPrice} ${currency} in Synthesis`;
+    return ({ account, totalPrice, currency, items, whisper });
   }
 
   /**
