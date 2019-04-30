@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, isDevMode } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMPTY, from, Subject, timer } from 'rxjs';
+import { EMPTY, from, Subject, timer, Observable, empty } from 'rxjs';
 import { catchError, concatMap, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
   BulkTradeRequest,
@@ -11,6 +11,8 @@ import {
   TradeDetailsResponse,
 } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
+import { LeagueInfo } from 'src/app/shared/interfaces/league-interfaces';
+import { LeagueService } from 'src/app/shared/services/league.service';
 
 @Component({
   selector: 'app-trade-home',
@@ -38,19 +40,26 @@ export class TradeHomeComponent {
 
   searching = false;
   abort$ = new Subject<void>();
+  leagues$: Observable<LeagueInfo[]>;
   results: PricedResult[] = [];
   bulkSearchForm: FormGroup;
   constructor(
     private service: TradeService,
+    private leagueService: LeagueService,
     private matSnack: MatSnackBar,
   ) {
     this.bulkSearchForm = new FormGroup({
       wanted: new FormControl('', Validators.required),
-      currency: new FormControl('chisel', Validators.required)
+      currency: new FormControl('chisel', Validators.required),
+      league: new FormControl(undefined, Validators.required),
     });
+    this.leagues$ = this.leagueService.getLeagues().pipe(
+      map(leagues => leagues.filter(league => !league.id.toLocaleLowerCase().includes('ssf')))
+    );
   }
 
-  search(items: string, currency: string): void {
+  search(): void {
+    const { wanted: items, currency, league } = this.bulkSearchForm.value;
     this.results = [];
     this.searching = true;
     const request: BulkTradeRequest = {
@@ -70,10 +79,14 @@ export class TradeHomeComponent {
     /**
      * Collect account names that trade at least one of the items
      */
-    const collectAccountNames$ = this.service.sendBulkRequest(request).pipe(
+    const collectAccountNames$ = this.service.sendBulkRequest({request, league}).pipe(
       // Limit trade results to top 10
       map((res) => ({ listings: res.result.slice(0, 10), id: res.id })),
       switchMap(({ listings, id }) => {
+        if (listings.length === 0) {
+          this.matSnack.open('No results found');
+          return EMPTY;
+        }
         return this.service.sendDetailRequest(listings, id);
       }),
       map(details => details.result.reduce((acc, cur) => {
@@ -95,16 +108,20 @@ export class TradeHomeComponent {
      */
     const request$ = collectAccountNames$.pipe(
       switchMap((accounts: string[]) => {
+        if (accounts.length === 0) {
+          this.matSnack.open('No accounts found');
+          return EMPTY;
+        }
         return from(accounts).pipe(
           concatMap(acc => {
             const cpy = { ...request };
             cpy.exchange.account = acc;
-            return this.service.sendBulkRequest({ ...cpy });
+            return this.service.sendBulkRequest({ request: {...cpy}, league });
           })
         );
       }),
       concatMap(r => this.service.sendDetailRequest(r.result, r.id)),
-      map(result => this.formatResults(result)),
+      map(result => this.formatResults(result, league)),
       catchError(_ => EMPTY),
       takeUntil(this.abort$),
       finalize(() => {
@@ -130,7 +147,7 @@ export class TradeHomeComponent {
    * the total price for all items for displaying in the frontend
    * @param val API-Response with listing details
    */
-  formatResults(val: TradeDetailsResponse): PricedResult {
+  formatResults(val: TradeDetailsResponse, league: string): PricedResult {
     const currency = val.result[0].listing.price.currency;
     const { name: account, lastCharacterName: char } = val.result[0].listing.account;
     const totalPrice = Math.ceil(val.result.reduce((acc, cur) => acc += cur.listing.price.amount, 0));
@@ -139,7 +156,7 @@ export class TradeHomeComponent {
     );
     const whisper = `@${char} Hi, I would like to buy your ${
       items.reduce((acc, item) => [...acc, `${item.name} (T${item.tier})`], [])
-        .join(', ')} listed for ${totalPrice} ${currency} in Synthesis`;
+        .join(', ')} listed for ${totalPrice} ${currency} in ${league}`;
     return ({ account, totalPrice, currency, items, whisper });
   }
 

@@ -1,55 +1,72 @@
-<mat-card style="margin: 0.5rem;">
-  <mat-card-header>
-    <mat-card-title>Bulk-Search for maps</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="bulkSearchForm">
-      <div class="d-flex wrap">
-        <mat-form-field style="margin-right: 0.5rem;">
-          <input type="text" matInput formControlName="wanted" placeholder="Maps to look for">
-        </mat-form-field>
+<ng-container *ngIf="leagues$ | async; let leagues; else loading">
+  <mat-card style="margin: 0.5rem;">
+    <mat-card-header>
+      <mat-card-title>Bulk-Search for maps</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="bulkSearchForm">
         <mat-form-field>
-          <mat-select formControlName="currency" placeholder="Currency">
-            <mat-option value="alch">Alchemy</mat-option>
-            <mat-option value="chisel">Chisel</mat-option>
-            <mat-option value="chaos">Chaos</mat-option>
+          <mat-select required formControlName="league" placeholder="League">
+            <mat-option *ngFor="let league of leagues" [value]="league.id">{{ league.id }}</mat-option>
           </mat-select>
         </mat-form-field>
+        <div class="d-flex wrap">
+          <mat-form-field style="margin-right: 0.5rem;">
+            <input required type="text" matInput formControlName="wanted" placeholder="Maps to look for">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select required formControlName="currency" placeholder="Currency">
+              <mat-option value="alch">Alchemy</mat-option>
+              <mat-option value="chisel">Chisel</mat-option>
+              <mat-option value="chaos">Chaos</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </form>
+      <mat-card-actions>
+        <div style="display: flex; align-items: center;">
+          <button style="margin-left: 0.5rem;" [disabled]="searching || !bulkSearchForm.valid" color="primary"
+            mat-raised-button
+            (click)="search()">Search</button>
+          <mat-spinner style="margin-left: 0.5rem;" [diameter]="30" *ngIf="searching"></mat-spinner>
+        </div>
+      </mat-card-actions>
+    </mat-card-content>
+    <mat-card-footer>
+      <div style="margin: 0 0.5rem;">
+        <small>Combining different currencies is not possible. Make a smart choice (e.g. don't select alch for T15
+          maps)</small>
       </div>
-    </form>
-    <mat-card-actions>
-      <div style="display: flex; align-items: center;">
-        <button style="margin-left: 0.5rem;" [disabled]="searching || !bulkSearchForm.valid" color="primary"
-          mat-raised-button (click)="search(bulkSearchForm.controls['wanted'].value, bulkSearchForm.controls['currency'].value)">Search</button>
-        <mat-spinner style="margin-left: 0.5rem;" [diameter]="30" *ngIf="searching"></mat-spinner>
+    </mat-card-footer>
+  </mat-card>
+
+  <mat-card [@GrowInOut] style="margin: 0.5rem;" *ngFor="let result of results; trackBy: resultsTrackerFn">
+    <mat-card-header>
+      <mat-card-title>
+        <span>{{ result.account }}</span>
+      </mat-card-title>
+
+      <mat-card-subtitle>
+        <span>
+          {{ result.items.length }} {{ (result.items.length > 1) ? 'items' : 'item' }} for {{result.totalPrice}}
+          {{ result.currency }}
+        </span>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex">
+        <mat-form-field style="width: 100%;">
+          <textarea readonly (click)="copyToClipboard(inputElement)" #inputElement [value]="result.whisper"
+            matInput></textarea>
+        </mat-form-field>
       </div>
-    </mat-card-actions>
-  </mat-card-content>
-  <mat-card-footer>
-    <div style="margin: 0 0.5rem;">
-      <small>Combining different currencies is not possible. Make a smart choice (e.g. don't select alch for T15 maps)</small>
-    </div>
-  </mat-card-footer>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
 
-<mat-card [@GrowInOut] style="margin: 0.5rem;" *ngFor="let result of results; trackBy: resultsTrackerFn">
-  <mat-card-header>
-    <mat-card-title>
-      <span>{{ result.account }}</span>
-    </mat-card-title>
-
-    <mat-card-subtitle>
-      <span>
-        {{ result.items.length }} {{ (result.items.length > 1) ? 'items' : 'item' }} for {{result.totalPrice}}
-        {{ result.currency }}
-      </span>
-    </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="d-flex">
-      <mat-form-field style="width: 100%;">
-        <textarea readonly (click)="copyToClipboard(inputElement)" #inputElement [value]="result.whisper" matInput></textarea>
-      </mat-form-field>
-    </div>
-  </mat-card-content>
-</mat-card>
+<ng-template #loading>
+  <div style="margin: 1rem;">
+    <h2>Loading league information...</h2>
+    <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+  </div>
+</ng-template>

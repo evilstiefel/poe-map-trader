@@ -3,7 +3,7 @@ import { BulkTradeRequest, TradeResponse, TradeDetailsResponse } from '../interf
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-const BULK_URL = 'https://www.pathofexile.com/api/trade/exchange/Synthesis';
+const BULK_URL = 'https://www.pathofexile.com/api/trade/exchange/';
 const FETCH_URL = 'https://www.pathofexile.com/api/trade/fetch/';
 
 @Injectable({
@@ -13,9 +13,9 @@ export class TradeService {
 
   constructor(private http: HttpClient) { }
 
-  sendBulkRequest(request: BulkTradeRequest): Observable<TradeResponse> {
+  sendBulkRequest({request, league}: {request: BulkTradeRequest, league: string}): Observable<TradeResponse> {
     const requestJson = JSON.stringify(request);
-    return this.http.get<TradeResponse>(`${BULK_URL}?source=${requestJson}`);
+    return this.http.get<TradeResponse>(`${BULK_URL}${league}?source=${requestJson}`);
   }
 
   sendDetailRequest(ids: string[] = [], query: string): Observable<TradeDetailsResponse> {

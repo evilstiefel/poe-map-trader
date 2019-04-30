@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ThrottleInterceptor } from './shared/interceptors/api-http.interceptor';
@@ -18,6 +18,7 @@ import { ThrottleInterceptor } from './shared/interceptors/api-http.interceptor'
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [{
