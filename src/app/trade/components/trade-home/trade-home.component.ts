@@ -61,15 +61,30 @@ export class TradeHomeComponent {
           .toLocaleLowerCase()]
       }
     };
-    const request$ = this.service.sendBulkRequest(request).pipe(
+
+    /**
+     * Collect account names that trade at least one of the items
+     */
+    const collectAccountNames$ = this.service.sendBulkRequest(request).pipe(
       delay(1000),
-      switchMap((res) => {
-        return this.service.sendDetailRequest(res.result.slice(0, 10), res.id);
+      // Limit trade results to top 10
+      map((res) => ({ listings: res.result.slice(0, 10), id: res.id})),
+      switchMap(({ listings, id }) => {
+        return this.service.sendDetailRequest(listings, id);
       }),
       map(details => details.result.reduce((acc, cur) => {
         if (acc.includes(cur.listing.account.name)) { return acc; }
         return [...acc, cur.listing.account.name];
-      }, [])),
+      }, []))
+    );
+
+    /**
+     * We assume that if you list one of the items,
+     * chances are you offer more than just the one.
+     * Consequently, we send the request again but add the account name
+     * to limit results to offers from just that account.
+     */
+    const request$ = collectAccountNames$.pipe(
       switchMap((accounts: string[]) => {
         return from(accounts).pipe(
           concatMap(acc => {
