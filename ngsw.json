@@ -1,0 +1,87 @@
+{
+  "configVersion": 1,
+  "timestamp": 1556651180551,
+  "index": "/poe-map-trader/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/poe-map-trader/5.832368152087cec8303d.js",
+        "/poe-map-trader/es2015-polyfills.c5dd28b362270c767b34.js",
+        "/poe-map-trader/favicon.ico",
+        "/poe-map-trader/index.html",
+        "/poe-map-trader/main.bad5a3f69ee9b4820d10.js",
+        "/poe-map-trader/polyfills.8bbb231b43165d65d357.js",
+        "/poe-map-trader/runtime.b7af077faccfcd937855.js",
+        "/poe-map-trader/styles.ec7ecde66b8bcc095f62.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/poe-map-trader/assets/icons/icon-128x128.png",
+        "/poe-map-trader/assets/icons/icon-144x144.png",
+        "/poe-map-trader/assets/icons/icon-152x152.png",
+        "/poe-map-trader/assets/icons/icon-192x192.png",
+        "/poe-map-trader/assets/icons/icon-384x384.png",
+        "/poe-map-trader/assets/icons/icon-512x512.png",
+        "/poe-map-trader/assets/icons/icon-72x72.png",
+        "/poe-map-trader/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-cache",
+      "patterns": [
+        "https:\\/\\/www\\.pathofexile\\.com\\/api\\/.*"
+      ],
+      "strategy": "performance",
+      "maxSize": 100,
+      "maxAge": 60000,
+      "version": 1
+    }
+  ],
+  "hashTable": {
+    "/poe-map-trader/5.832368152087cec8303d.js": "a698e91fb65e0a17c8c0b1633bf8df13b386f1f1",
+    "/poe-map-trader/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/poe-map-trader/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/poe-map-trader/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/poe-map-trader/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/poe-map-trader/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/poe-map-trader/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/poe-map-trader/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/poe-map-trader/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/poe-map-trader/es2015-polyfills.c5dd28b362270c767b34.js": "b7a81c61d32b0b12737f0c13f45973ba391cd7f9",
+    "/poe-map-trader/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "/poe-map-trader/index.html": "4e9bbc62256fcc8ecce6f88a8b288241c1c5bab8",
+    "/poe-map-trader/main.bad5a3f69ee9b4820d10.js": "51de0092220e569e773cfbb15c9d0404a4f6bb86",
+    "/poe-map-trader/polyfills.8bbb231b43165d65d357.js": "ffa449995bf2eba2ccd0a002417214f7eb75e7b5",
+    "/poe-map-trader/runtime.b7af077faccfcd937855.js": "f42ab9c75960bde0a7671d6b2af9a0a4dce9996d",
+    "/poe-map-trader/styles.ec7ecde66b8bcc095f62.css": "93899295449d6a4a53e496ab65e0007c350f1e3d"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
