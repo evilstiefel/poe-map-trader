@@ -45,18 +45,18 @@ export class TradeHomeComponent {
     });
   }
 
-  search(): void {
+  search(items: string, currency: string): void {
     this.results = [];
     this.searching = true;
     const request: BulkTradeRequest = {
       exchange: {
-        want: (this.bulkSearchForm.controls.wanted.value as string)
+        want: items
           .split(',')
           .map(val => `${val}-map`.trim().replace(' ', '-')),
         status: {
           option: 'online'
         },
-        have: [(this.bulkSearchForm.controls.currency.value as string)
+        have: [currency
           .trim()
           .toLocaleLowerCase()]
       }
@@ -68,7 +68,7 @@ export class TradeHomeComponent {
     const collectAccountNames$ = this.service.sendBulkRequest(request).pipe(
       delay(1000),
       // Limit trade results to top 10
-      map((res) => ({ listings: res.result.slice(0, 10), id: res.id})),
+      map((res) => ({ listings: res.result.slice(0, 10), id: res.id })),
       switchMap(({ listings, id }) => {
         return this.service.sendDetailRequest(listings, id);
       }),
