@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:pages": "ng build --prod --base-href /poe-map-trader/",
     "deploy": "npx angular-cli-ghpages --dir=dist/map-trader",
     "test": "ng test",
     "lint": "ng lint",
