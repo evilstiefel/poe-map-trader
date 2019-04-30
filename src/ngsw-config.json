@@ -1,5 +1,14 @@
 {
   "index": "/index.html",
+  "dataGroups": [{
+    "name": "api-cache",
+    "urls": ["https://www.pathofexile.com/api/**"],
+    "cacheConfig": {
+      "strategy": "performance",
+      "maxSize": 100,
+      "maxAge": "1m"
+    }
+  }],
   "assetGroups": [
     {
       "name": "app",

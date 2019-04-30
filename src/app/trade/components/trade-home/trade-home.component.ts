@@ -2,7 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, isDevMode } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMPTY, from, Subject } from 'rxjs';
+import { EMPTY, from, Subject, timer } from 'rxjs';
 import { catchError, concatMap, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
   BulkTradeRequest,
