@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { LeagueInfo } from '../interfaces/league-interfaces';
 
-const API_ROOT = 'http://api.pathofexile.com/leagues';
+const API_ROOT = 'https://api.pathofexile.com/leagues';
 
 @Injectable({
   providedIn: 'root'
