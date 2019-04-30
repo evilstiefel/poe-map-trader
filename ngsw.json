@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1556655691545,
+  "timestamp": 1556655767385,
   "index": "/poe-map-trader/index.html",
   "assetGroups": [
     {
@@ -8,13 +8,13 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/poe-map-trader/5.1f8cb45508fd5b532a3c.js",
+        "/poe-map-trader/5.500cff0baebec164bcd7.js",
         "/poe-map-trader/es2015-polyfills.c5dd28b362270c767b34.js",
         "/poe-map-trader/favicon.ico",
         "/poe-map-trader/index.html",
         "/poe-map-trader/main.83e45c8925cce02aed48.js",
         "/poe-map-trader/polyfills.8bbb231b43165d65d357.js",
-        "/poe-map-trader/runtime.3011ee8f3c79e570b9bd.js",
+        "/poe-map-trader/runtime.188e05e36c4c5708eec9.js",
         "/poe-map-trader/styles.ec7ecde66b8bcc095f62.css"
       ],
       "patterns": []
@@ -49,7 +49,7 @@
     }
   ],
   "hashTable": {
-    "/poe-map-trader/5.1f8cb45508fd5b532a3c.js": "ed382066e3888af1f1c6f5ad8a8b49d034f32068",
+    "/poe-map-trader/5.500cff0baebec164bcd7.js": "76f0e31b158abd33aa8b026e52f617d11e3d1e7d",
     "/poe-map-trader/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "/poe-map-trader/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "/poe-map-trader/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
@@ -60,10 +60,10 @@
     "/poe-map-trader/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/poe-map-trader/es2015-polyfills.c5dd28b362270c767b34.js": "b7a81c61d32b0b12737f0c13f45973ba391cd7f9",
     "/poe-map-trader/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/poe-map-trader/index.html": "67b2868fa8cfa17038ee206ffc163751dd143712",
+    "/poe-map-trader/index.html": "6379e507ffa2b18c1ad0008ee54305dad7120afe",
     "/poe-map-trader/main.83e45c8925cce02aed48.js": "2ce60350e929ae0a63c0a505dd4c56a4b21a7db9",
     "/poe-map-trader/polyfills.8bbb231b43165d65d357.js": "ffa449995bf2eba2ccd0a002417214f7eb75e7b5",
-    "/poe-map-trader/runtime.3011ee8f3c79e570b9bd.js": "8377627d034f08ba1f8b996b3537e0669cba186c",
+    "/poe-map-trader/runtime.188e05e36c4c5708eec9.js": "d7841d6bec21e1137ce6cb1080a4b09bb7647599",
     "/poe-map-trader/styles.ec7ecde66b8bcc095f62.css": "93899295449d6a4a53e496ab65e0007c350f1e3d"
   },
   "navigationUrls": [
