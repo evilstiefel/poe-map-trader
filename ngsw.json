@@ -1,21 +1,21 @@
 {
   "configVersion": 1,
-  "timestamp": 1557042315621,
-  "index": "/index.html",
+  "timestamp": 1557042505003,
+  "index": "/poe-map-trader/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/5.36d8e6048d309f3972db.js",
-        "/es2015-polyfills.c5dd28b362270c767b34.js",
-        "/favicon.ico",
-        "/index.html",
-        "/main.83e45c8925cce02aed48.js",
-        "/polyfills.8bbb231b43165d65d357.js",
-        "/runtime.ed91a4079ebded66b9b7.js",
-        "/styles.ec7ecde66b8bcc095f62.css"
+        "/poe-map-trader/5.36d8e6048d309f3972db.js",
+        "/poe-map-trader/es2015-polyfills.c5dd28b362270c767b34.js",
+        "/poe-map-trader/favicon.ico",
+        "/poe-map-trader/index.html",
+        "/poe-map-trader/main.83e45c8925cce02aed48.js",
+        "/poe-map-trader/polyfills.8bbb231b43165d65d357.js",
+        "/poe-map-trader/runtime.ed91a4079ebded66b9b7.js",
+        "/poe-map-trader/styles.ec7ecde66b8bcc095f62.css"
       ],
       "patterns": []
     },
@@ -24,14 +24,14 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "urls": [
-        "/assets/icons/icon-128x128.png",
-        "/assets/icons/icon-144x144.png",
-        "/assets/icons/icon-152x152.png",
-        "/assets/icons/icon-192x192.png",
-        "/assets/icons/icon-384x384.png",
-        "/assets/icons/icon-512x512.png",
-        "/assets/icons/icon-72x72.png",
-        "/assets/icons/icon-96x96.png"
+        "/poe-map-trader/assets/icons/icon-128x128.png",
+        "/poe-map-trader/assets/icons/icon-144x144.png",
+        "/poe-map-trader/assets/icons/icon-152x152.png",
+        "/poe-map-trader/assets/icons/icon-192x192.png",
+        "/poe-map-trader/assets/icons/icon-384x384.png",
+        "/poe-map-trader/assets/icons/icon-512x512.png",
+        "/poe-map-trader/assets/icons/icon-72x72.png",
+        "/poe-map-trader/assets/icons/icon-96x96.png"
       ],
       "patterns": []
     }
@@ -49,22 +49,22 @@
     }
   ],
   "hashTable": {
-    "/5.36d8e6048d309f3972db.js": "6c5ec0790d0a58376a8ca51cf88fc1c61aa2b4aa",
-    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
-    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
-    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
-    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
-    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
-    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
-    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
-    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
-    "/es2015-polyfills.c5dd28b362270c767b34.js": "b7a81c61d32b0b12737f0c13f45973ba391cd7f9",
-    "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "639d81e9f0a5fac84e57f5b7df665cbd01bc823d",
-    "/main.83e45c8925cce02aed48.js": "2ce60350e929ae0a63c0a505dd4c56a4b21a7db9",
-    "/polyfills.8bbb231b43165d65d357.js": "ffa449995bf2eba2ccd0a002417214f7eb75e7b5",
-    "/runtime.ed91a4079ebded66b9b7.js": "c563bbcf08ce7cdd68216d3a43f4e11c56e5b8a6",
-    "/styles.ec7ecde66b8bcc095f62.css": "93899295449d6a4a53e496ab65e0007c350f1e3d"
+    "/poe-map-trader/5.36d8e6048d309f3972db.js": "6c5ec0790d0a58376a8ca51cf88fc1c61aa2b4aa",
+    "/poe-map-trader/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/poe-map-trader/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/poe-map-trader/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/poe-map-trader/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/poe-map-trader/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/poe-map-trader/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/poe-map-trader/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/poe-map-trader/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/poe-map-trader/es2015-polyfills.c5dd28b362270c767b34.js": "b7a81c61d32b0b12737f0c13f45973ba391cd7f9",
+    "/poe-map-trader/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "/poe-map-trader/index.html": "c3b394c4c30fead7767fcf9e1ce943a55adcaf02",
+    "/poe-map-trader/main.83e45c8925cce02aed48.js": "2ce60350e929ae0a63c0a505dd4c56a4b21a7db9",
+    "/poe-map-trader/polyfills.8bbb231b43165d65d357.js": "ffa449995bf2eba2ccd0a002417214f7eb75e7b5",
+    "/poe-map-trader/runtime.ed91a4079ebded66b9b7.js": "c563bbcf08ce7cdd68216d3a43f4e11c56e5b8a6",
+    "/poe-map-trader/styles.ec7ecde66b8bcc095f62.css": "93899295449d6a4a53e496ab65e0007c350f1e3d"
   },
   "navigationUrls": [
     {
