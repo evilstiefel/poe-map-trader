@@ -84,7 +84,7 @@ export class TradeHomeComponent {
       map((res) => ({ listings: res.result.slice(0, 10), id: res.id })),
       switchMap(({ listings, id }) => {
         if (listings.length === 0) {
-          this.matSnack.open('No results found');
+          this.matSnack.open('No results found', undefined, { duration: 5000 });
           return EMPTY;
         }
         return this.service.sendDetailRequest(listings, id);
