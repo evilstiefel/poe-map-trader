@@ -20,6 +20,8 @@ export class MapSelectorComponent {
       .map(m => ({ ...m, selected: false }));
   }
 
+  mapCount = 0;
+  shapedMapCount = 0;
   selectableMaps: Array<StaticItem & { selected: boolean }>;
   selectableShapedMaps: Array<StaticItem & { selected: boolean }>;
   constructor() { }
@@ -52,6 +54,8 @@ export class MapSelectorComponent {
     const selection = [...this.selectableMaps, ...this.selectableShapedMaps].reduce(
       (list, m) => (m.selected) ? [...list, m.id] : list, []
     );
+    this.shapedMapCount = this.selectableShapedMaps.filter(m => m.selected).length;
+    this.mapCount = this.selectableMaps.filter(m => m.selected).length;
     this.change.emit(selection);
   }
 
