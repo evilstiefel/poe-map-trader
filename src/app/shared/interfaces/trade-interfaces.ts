@@ -99,3 +99,27 @@ export interface PricedResult {
   items: any[];
   whisper: string;
 }
+
+export interface StaticItemResponse {
+  result: {
+    cards: any[];
+    currency: any[];
+    elder_maps: any[];
+    essences: any[];
+    fossils: any[];
+    fragments: any[];
+    leaguestones: any[];
+    maps: StaticItem[];
+    misc: any[];
+    nets: any[];
+    resonators: any[];
+    scarabs: any[];
+    shaped_maps: StaticItem[];
+    vials: any[];
+  };
+}
+
+export interface StaticItem {
+  id: string;
+  text: string;
+}

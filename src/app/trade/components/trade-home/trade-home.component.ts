@@ -2,13 +2,14 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, isDevMode } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMPTY, from, Subject, timer, Observable, empty } from 'rxjs';
+import { EMPTY, from, Subject, timer, Observable, empty, forkJoin, of } from 'rxjs';
 import { catchError, concatMap, finalize, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
   BulkTradeRequest,
   PricedResult,
   TradeDetails,
   TradeDetailsResponse,
+  StaticItem,
 } from 'src/app/shared/interfaces/trade-interfaces';
 import { TradeService } from 'src/app/shared/services/trade.service';
 import { LeagueInfo } from 'src/app/shared/interfaces/league-interfaces';
@@ -41,6 +42,8 @@ export class TradeHomeComponent {
   searching = false;
   abort$ = new Subject<void>();
   leagues$: Observable<LeagueInfo[]>;
+  maps$: Observable<StaticItem[]>;
+  mapsAndLeagues$: Observable<{ maps: StaticItem[], leagues: LeagueInfo[] }>;
   results: PricedResult[] = [];
   bulkSearchForm: FormGroup;
   constructor(
@@ -55,6 +58,17 @@ export class TradeHomeComponent {
     });
     this.leagues$ = this.leagueService.getLeagues().pipe(
       map(leagues => leagues.filter(league => !league.id.toLocaleLowerCase().includes('ssf')))
+    );
+    this.maps$ = this.service.getStaticItemData().pipe(
+      map(items => [...items.result.maps, ...items.result.shaped_maps]),
+      catchError(err => of([]))
+    );
+
+    this.mapsAndLeagues$ = forkJoin(
+      this.maps$,
+      this.leagues$
+    ).pipe(
+      map(([maps, leagues]) => ({ maps, leagues }))
     );
   }
 

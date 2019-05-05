@@ -1,14 +1,40 @@
 {
   "index": "/index.html",
-  "dataGroups": [{
-    "name": "api-cache",
-    "urls": ["https://www.pathofexile.com/api/**"],
-    "cacheConfig": {
-      "strategy": "performance",
-      "maxSize": 100,
-      "maxAge": "1m"
+  "dataGroups": [
+    {
+      "name": "api-exchange-cache",
+      "urls": [
+        "https://www.pathofexile.com/api/trade/exchange/**"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "1m"
+      }
+    },
+    {
+      "name": "api-fetch-cache",
+      "urls": [
+        "https://www.pathofexile.com/api/trade/fetch/**"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "1m"
+      }
+    },
+    {
+      "name": "api-static-cache",
+      "urls": [
+        "/assets/json/**"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 100,
+        "maxAge": "1d"
+      }
     }
-  }],
+  ],
   "assetGroups": [
     {
       "name": "app",
@@ -21,7 +47,8 @@
           "/*.js"
         ]
       }
-    }, {
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
