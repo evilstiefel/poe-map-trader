@@ -1,0 +1,10 @@
+div {
+  border:  1px solid #000;
+  margin: 0.2rem;
+  padding: 0.1rem;
+  display: inline-block;
+}
+
+:host {
+  margin: -0.2rem;
+}

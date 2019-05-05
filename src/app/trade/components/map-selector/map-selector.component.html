@@ -1,0 +1,20 @@
+<mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Maps</mat-panel-title>
+        <mat-panel-description><span *ngIf="mapCount > 0"> {{ mapCount }} selected</span></mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-chip-list [selectable]="true" [multiple]="true">
+        <mat-chip [selected]="map.selected" (click)="selectMap(map.id)" [selectable]="true" *ngFor="let map of selectableMaps; trackBy: trackByFn"> {{ map.text }}</mat-chip>
+      </mat-chip-list>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Shaped Maps</mat-panel-title>
+        <mat-panel-description><span *ngIf="shapedMapCount > 0"> {{ shapedMapCount }} selected</span></mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-chip-list [selectable]="true" [multiple]="true">
+        <mat-chip [selected]="map.selected" (click)="selectMap(map.id)" [selectable]="true" *ngFor="let map of selectableShapedMaps; trackBy: trackByFn"> {{ map.text }}</mat-chip>
+      </mat-chip-list>
+    </mat-expansion-panel>
+  </mat-accordion>

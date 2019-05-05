@@ -1,4 +1,4 @@
-<ng-container *ngIf="leagues$ | async; let leagues; else loading">
+<ng-container *ngIf="mapsAndLeagues$ | async; let mapsAndLeagues; else loading">
   <mat-card style="margin: 0.5rem;">
     <mat-card-header>
       <mat-card-title>Bulk-Search for maps</mat-card-title>
@@ -7,13 +7,13 @@
       <form [formGroup]="bulkSearchForm">
         <mat-form-field>
           <mat-select required formControlName="league" placeholder="League">
-            <mat-option *ngFor="let league of leagues" [value]="league.id">{{ league.id }}</mat-option>
+            <mat-option *ngFor="let league of mapsAndLeagues.leagues" [value]="league.id">{{ league.id }}</mat-option>
           </mat-select>
         </mat-form-field>
         <div class="d-flex wrap">
-          <mat-form-field style="margin-right: 0.5rem;">
-            <input required type="text" matInput formControlName="wanted" placeholder="Maps to look for">
-          </mat-form-field>
+          <app-map-selector (change)="updateSelection($event)" [maps]="mapsAndLeagues.maps"></app-map-selector>
+        </div>
+        <div class="d-flex wrap" style="margin-top: 1rem;">
           <mat-form-field>
             <mat-select required formControlName="currency" placeholder="Currency">
               <mat-option value="alch">Alchemy</mat-option>

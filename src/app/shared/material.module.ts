@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
@@ -22,6 +24,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatSnackBarModule,
     MatProgressBarModule,
+    MatChipsModule,
+    MatExpansionModule,
   ],
   exports: [
     MatCardModule,
@@ -32,6 +36,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSelectModule,
     MatSnackBarModule,
     MatProgressBarModule,
+    MatChipsModule,
+    MatExpansionModule,
   ]
 })
 export class MaterialModule { }
