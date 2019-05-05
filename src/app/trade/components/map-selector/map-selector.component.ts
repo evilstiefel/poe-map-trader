@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { StaticItem } from 'src/app/shared/interfaces/trade-interfaces';
 
 @Component({
@@ -7,6 +7,8 @@ import { StaticItem } from 'src/app/shared/interfaces/trade-interfaces';
   styleUrls: ['./map-selector.component.scss']
 })
 export class MapSelectorComponent {
+
+  @Output() change = new EventEmitter<string[]>();
 
   @Input()
   set maps(maps: StaticItem[]) {
@@ -47,6 +49,10 @@ export class MapSelectorComponent {
     } else {
       return;
     }
+    const selection = [...this.selectableMaps, ...this.selectableShapedMaps].reduce(
+      (list, m) => (m.selected) ? [...list, m.id] : list, []
+    );
+    this.change.emit(selection);
   }
 
 }

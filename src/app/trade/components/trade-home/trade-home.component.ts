@@ -78,9 +78,7 @@ export class TradeHomeComponent {
     this.searching = true;
     const request: BulkTradeRequest = {
       exchange: {
-        want: items
-          .split(',')
-          .map(val => `${val}-map`.trim().replace(' ', '-')),
+        want: items,
         status: {
           option: 'online'
         },
@@ -200,6 +198,12 @@ export class TradeHomeComponent {
     inputElement.select();
     document.execCommand('copy');
     this.matSnack.open('Copied to clipboard!', undefined, { duration: 4000 });
+  }
+
+  updateSelection(maps: string[]) {
+    this.bulkSearchForm.patchValue({
+      wanted: maps
+    });
   }
 
 }
