@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 
 const BULK_URL = 'https://www.pathofexile.com/api/trade/exchange/';
 const FETCH_URL = 'https://www.pathofexile.com/api/trade/fetch/';
-const ITEM_URL = '/assets/json/trade-data.json';
+const ITEM_URL = './assets/json/trade-data.json';
 
 @Injectable({
   providedIn: 'root'
