@@ -8,6 +8,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@ang
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ThrottleInterceptor } from './shared/interceptors/api-http.interceptor';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,8 @@ import { ThrottleInterceptor } from './shared/interceptors/api-http.interceptor'
     HttpClientModule,
     HttpClientJsonpModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
