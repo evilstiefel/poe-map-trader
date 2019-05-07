@@ -142,5 +142,8 @@
       }
     }
   },
-  "defaultProject": "map-trader"
+  "defaultProject": "map-trader",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
